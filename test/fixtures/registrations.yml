@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  voksen: 1
+  ung: 1
+  boern: 1
+  baby: 1
+  member_id: 
+
+two:
+  voksen: 1
+  ung: 1
+  boern: 1
+  baby: 1
+  member_id: 

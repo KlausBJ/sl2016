@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Registrations</h1>
+
+<table>
+  <tbody>
+    <% @registrations.each do |registration| %>
+      <tr>
+        <td>Voksen</td><td><%= registration.voksen %></td>
+      </tr>
+      <tr>
+        <td>Ung</td><td><%= registration.ung %></td>
+      </tr>
+      <tr>
+        <td>Barn</td><td><%= registration.boern %></td>
+      </tr>
+      <tr>
+        <td>Baby</td><td><%= registration.baby %></td>
+      </tr>
+      <tr>
+        <td>Medlemsnr</td><td><%= registration.member.number %></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td><td><%= link_to 'Vis', registration %></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td><td><%= link_to 'Redigér', edit_registration_path(registration) %></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td><td><%= link_to 'Slet', registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Registration', new_registration_path %>

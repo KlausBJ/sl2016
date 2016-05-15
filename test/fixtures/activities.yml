@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  navn: MyString
+  sted: MyString
+  dag: 1
+  tid: 2016-05-14 11:51:19
+
+two:
+  navn: MyString
+  sted: MyString
+  dag: 1
+  tid: 2016-05-14 11:51:19

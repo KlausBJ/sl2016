@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Navn:</strong>
+  <%= @activity.navn %>
+</p>
+
+<p>
+  <strong>Sted:</strong>
+  <%= @activity.sted %>
+</p>
+
+<p>
+  <strong>Dag:</strong>
+  <%= @activity.dag %>
+</p>
+
+<p>
+  <strong>Tid:</strong>
+  <%= @activity.tid %>
+</p>
+
+<%= link_to 'Edit', edit_activity_path(@activity) %> |
+<%= link_to 'Back', activities_path %>

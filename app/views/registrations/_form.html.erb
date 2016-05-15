@@ -1,0 +1,37 @@
+<%= form_for(@registration) do |f| %>
+  <% if @registration.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
+
+      <ul>
+      <% @registration.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :voksen %><br>
+    <%= f.number_field :voksen %>
+  </div>
+  <div class="field">
+    <%= f.label :ung %><br>
+    <%= f.number_field :ung %>
+  </div>
+  <div class="field">
+    <%= f.label :boern %><br>
+    <%= f.number_field :boern %>
+  </div>
+  <div class="field">
+    <%= f.label :baby %><br>
+    <%= f.number_field :baby %>
+  </div>
+  <div class="field">
+    <%= f.label :member_id %><br>
+    <%= f.text_field :member_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

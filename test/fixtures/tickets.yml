@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  deltager: MyString
+  member_id: 
+  activity_id: 
+
+two:
+  deltager: MyString
+  member_id: 
+  activity_id: 

@@ -1,0 +1,22 @@
+<%# app/views/members/_list.html.erb %>
+<div id="filterrific_results">
+
+  <div>
+    <%= page_entries_info members %>
+  </div>
+
+  <table>
+    <tr>
+      <th>Medlemsnr</th>
+      <th>Email</th>
+    </tr>
+    <% members.each do |member| %>
+      <tr>
+        <td><%= link_to(member.number, member_path(member)) %></td>
+        <td><%= member.email %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<%= will_paginate members %>
