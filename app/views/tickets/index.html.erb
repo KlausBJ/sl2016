@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Tickets</h1>
+<h1>Billetter</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Deltager</th>
-      <th>Member</th>
-      <th>Activity</th>
+      <th>Navn</th>
+      <th>Medlemsnr</th>
+      <th>Aktivitet</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,9 +15,9 @@
   <tbody>
     <% @tickets.each do |ticket| %>
       <tr>
-        <td><%= ticket.deltager %></td>
-        <td><%= ticket.member %></td>
-        <td><%= ticket.activity %></td>
+        <td><%= ticket.name %></td>
+        <td><%= ticket.registration.nil? ? "" : ticket.registration.member.number %></td>
+        <td><%= ticket.activity.nil? ? "" : ticket.activity.navn %></td>
         <td><%= link_to 'Show', ticket %></td>
         <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
         <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Ticket', new_ticket_path %>
+#<%= link_to 'New Ticket', new_ticket_path %>

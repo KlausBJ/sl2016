@@ -1,33 +1,36 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Registrations</h1>
+<h1>Tilmeldinger</h1>
 
 <table>
-  <tbody>
+  <thead>
+    <tr>
+      <th>Navn</th>
+      <th>K&oslash;n</th>
+      <th>Medlemsnr</th>
+      <th>Billettype</th>
+      <th>email</th>
+      <th>Mobil</th>
+      <th>&Aring;rgang</th>
+      <th>Indkvartering</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+	<tbody>
     <% @registrations.each do |registration| %>
       <tr>
-        <td>Voksen</td><td><%= registration.voksen %></td>
-      </tr>
-      <tr>
-        <td>Ung</td><td><%= registration.ung %></td>
-      </tr>
-      <tr>
-        <td>Barn</td><td><%= registration.boern %></td>
-      </tr>
-      <tr>
-        <td>Baby</td><td><%= registration.baby %></td>
-      </tr>
-      <tr>
-        <td>Medlemsnr</td><td><%= registration.member.number %></td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td><td><%= link_to 'Vis', registration %></td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td><td><%= link_to 'Redigér', edit_registration_path(registration) %></td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td><td><%= link_to 'Slet', registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= registration.name %></td>
+        <td><%= registration.koen %></td>
+        <td><%= registration.member.number %></td>
+        <td><%= registration.ticket_type.name %></td>
+        <td><%= registration.email %></td>
+        <td><%= registration.mobil %></td>
+        <td><%= registration.aargang %></td>
+        <td><%= registration.indkvartering %></td>
+        <td><%= link_to 'Show', registration %></td>
+        <td><%= link_to 'Edit', edit_registration_path(registration) %></td>
+        <td><%= link_to 'Destroy', registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -35,4 +38,5 @@
 
 <br>
 
+<%= render 'upload' %>
 <%= link_to 'New Registration', new_registration_path %>

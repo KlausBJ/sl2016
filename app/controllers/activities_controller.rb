@@ -1,10 +1,71 @@
 class ActivitiesController < ApplicationController
-  before_action :set_activity, only: [:show, :edit, :update, :destroy]
+  before_action :set_activity, only: [:show, :edit, :update, :destroy, :ticket_import]
+	#require 'CSVImporter'
+	helper_method :sort_column, :sort_direction
 
-  # GET /activities
+  def import
+		myfile = params[:file]
+		contents = myfile.read.force_encoding('UTF-8')
+		
+		import = ImportActivityCSV.new(content: contents)
+		import.run!
+		
+		redirect_to activities_url, notice: 'Aktiviteter importeret/opdateret.'
+	end
+	
+	def ticket_import
+		$activity = @activity
+		myfile = params[:activity][:file]
+		
+		contents = myfile.read.force_encoding('UTF-8')
+		
+		import = ImportTicketCSV.new(content: contents) do
+			after_build do |ticket|
+				tmpregistration = Registration.find_by_member_id_and_name(ticket.registration.member_id, ticket.name)
+				if tmpregistration.nil? 
+					# ikke fundet på den nemme måde
+					tmpresult = Registration.where("member_id = ? and lower(name) LIKE ?", ticket.registration.member_id, "#{ticket.name.split(' ')[0].downcase}%")
+					if tmpresult.count == 0
+						# heller ikke på den svære måde - vi opretter en ny
+						ticket.registration.name = ticket.name
+						ticket.registration.save
+						ticket.registration = Registration.find_by_member_id_and_name(ticket.registration.member_id, ticket.name)
+					else
+						# fundet på den svære måde - ok
+						ticket.registration = Registration.find(tmpresult[0].to_param)
+						#ticket.registration.save
+						#ticket.registration = Registration.find_by_member_id_and_name(ticket.registration.member_id, ticket.name)
+					end
+				else
+					# fundet på den nemme måde
+					p "debug: fundet på den nemme måde..."
+					p "debug: name #{ticket.name} medlemsnr #{ticket.registration.member_id}"
+					ticket.registration = tmpregistration
+				end
+				ticket.activity = $activity
+			end
+		end
+
+		import.run!
+		
+		$activity = nil
+		
+		redirect_to activity_url, notice: import.report.message
+		#'Billetter importeret/opdateret.'
+	end
+
+	def sort_column
+    sortable_columns.include?(params[:column]) ? params[:column] : "navn"
+	end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+	
+	# GET /activities
   # GET /activities.json
   def index
-    @activities = Activity.all
+    @activities = Activity.order("activities.#{sort_column} #{sort_direction}")
   end
 
   # GET /activities/1
@@ -28,7 +89,7 @@ class ActivitiesController < ApplicationController
 
     respond_to do |format|
       if @activity.save
-        format.html { redirect_to @activity, notice: 'Activity was successfully created.' }
+        format.html { redirect_to @activity, notice: 'Aktivitet oprettet.' }
         format.json { render :show, status: :created, location: @activity }
       else
         format.html { render :new }
@@ -69,6 +130,10 @@ class ActivitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
-      params.require(:activity).permit(:navn, :sted, :dag, :tid)
+      params.require(:activity).permit(:navn, :sted, :tid, :file)
     end
+		
+		def sortable_columns
+			["navn", "sted", "tid"]
+		end
 end

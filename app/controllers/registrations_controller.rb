@@ -6,6 +6,16 @@ class RegistrationsController < ApplicationController
   def index
     @registrations = Registration.all
   end
+	
+	def import
+		myfile = params[:file]
+		contents = myfile.read.force_encoding('UTF-8')
+		
+		import = ImportRegistrationCSV.new(content: contents)
+		import.run!
+		
+		redirect_to registrations_url, notice: 'Tilmeldinger importeret/opdateret.'
+	end
 
   # GET /registrations/1
   # GET /registrations/1.json
@@ -69,6 +79,6 @@ class RegistrationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def registration_params
-      params.require(:registration).permit(:voksen, :ung, :boern, :baby, :member_id)
+      params.require(:registration).permit(:name, :member_id, :ticket_type_id)
     end
 end

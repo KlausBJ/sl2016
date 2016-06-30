@@ -7,7 +7,17 @@ class TasksController < ApplicationController
     @tasks = Task.all
   end
 
-  # GET /tasks/1
+  def import
+		myfile = params[:file]
+		contents = myfile.read.force_encoding('UTF-8')
+		
+		import = ImportTaskCSV.new(content: contents)
+		import.run!
+		
+		redirect_to tasks_url, notice: 'Opgaver importeret/opdateret.'
+	end
+	
+	# GET /tasks/1
   # GET /tasks/1.json
   def show
   end
@@ -15,6 +25,8 @@ class TasksController < ApplicationController
   # GET /tasks/new
   def new
     @task = Task.new
+		@task.number = 1
+		@task.date = DateTime.parse("2016-07-23 12:00:00")
   end
 
   # GET /tasks/1/edit
@@ -69,6 +81,6 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:name, :description, :detail)
+      params.require(:task).permit(:name, :detail, :date, :number)
     end
 end

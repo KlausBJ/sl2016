@@ -2,21 +2,15 @@
 <div id="filterrific_results">
 
   <div>
-    <%= page_entries_info members %>
+    <%= page_entries_info members %><br/><br/>
   </div>
 
-  <table>
-    <tr>
-      <th>Medlemsnr</th>
-      <th>Email</th>
-    </tr>
+  <div>
+		<Strong>Medlemsnr - Navn - email - tilmeldte</Strong><br/>
     <% members.each do |member| %>
-      <tr>
-        <td><%= link_to(member.number, member_path(member)) %></td>
-        <td><%= member.email %></td>
-      </tr>
+      <%= link_to("#{member.number} - #{member.name} - #{member.email} - #{member.registrations.count}", member_path(member), :target => "_blank") %><br/>
     <% end %>
-  </table>
+  </div>
+<%= will_paginate members %>
 </div>
 
-<%= will_paginate members %>

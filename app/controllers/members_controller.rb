@@ -26,6 +26,16 @@ class MembersController < ApplicationController
 
 	def list
 	end
+	
+	def import
+		myfile = params[:file]
+		contents = myfile.read.force_encoding('UTF-8')
+		
+		import = ImportMemberCSV.new(content: contents)
+		import.run!
+		
+		redirect_to members_url, notice: 'Medlemmer importeret/opdateret.'
+	end
 
 	def reset_filterrific
 		# Clear session persistence
@@ -93,6 +103,7 @@ class MembersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_member
       @member = Member.find(params[:id])
+			#@registrations = @member.registrations
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

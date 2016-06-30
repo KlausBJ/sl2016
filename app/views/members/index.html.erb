@@ -9,6 +9,9 @@
     <%= f.text_field :search_query,
 							:class => 'filterrific-periodically-observed form-control'
     %>
+		<%# add an automated spinner to your form when the list is refreshed %>
+		<%# render_filterrific_spinner %>
+		<%# er der referencer til spinneren andre steder, som smadrer det hele, hvis den er fjernet? %>
   </div>
   <div>
     <%= link_to(
@@ -16,11 +19,8 @@
       reset_filterrific_url,
     ) %>
   </div>
-  <%# add an automated spinner to your form when the list is refreshed %>
-	<%= render_filterrific_spinner %>
 <% end %>
 
-#results
 <%= render(
   :partial => 'members/list',
   :locals => { :members => @members }
@@ -28,4 +28,5 @@
 
 <br>
 
+<%= render 'upload' %>
 <%= link_to 'New Member', new_member_path %>

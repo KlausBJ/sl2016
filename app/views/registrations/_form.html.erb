@@ -12,24 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :voksen %><br>
-    <%= f.number_field :voksen %>
-  </div>
-  <div class="field">
-    <%= f.label :ung %><br>
-    <%= f.number_field :ung %>
-  </div>
-  <div class="field">
-    <%= f.label :boern %><br>
-    <%= f.number_field :boern %>
-  </div>
-  <div class="field">
-    <%= f.label :baby %><br>
-    <%= f.number_field :baby %>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
   </div>
   <div class="field">
     <%= f.label :member_id %><br>
     <%= f.text_field :member_id %>
+  </div>
+  <div class="field">
+    <%= f.label :ticket_type_id %><br>
+    <%= f.text_field :ticket_type_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

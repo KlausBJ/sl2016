@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Number:</strong>
+  <strong>Medlemsnr:</strong>
   <%= @member.number %>
+</p>
+
+<p>
+  <strong>Navn:</strong>
+  <%= @member.name %>
 </p>
 
 <p>
@@ -10,5 +15,51 @@
   <%= @member.email %>
 </p>
 
+<p>
+	<table>
+		<tr>
+			<th align="left" width="200">Navn</th>
+			<th align="left">Billettype</th>
+		</tr>
+		<% @member.registrations.each do |registration| %>
+			<tr>
+					<td><%= registration.name %></td>
+					<td><%= registration.ticket_type.name %></td>
+			</tr>
+		<% end %>
+	</table>
+</p>
+
+<p>
+	<table>
+		<tr>
+			<th align="left" width="200">Aktivitet</th>
+			<th align="left">Opgave</th>
+		</tr>
+		<% @member.registrations.each do |registration| %>
+			<% registration.tickets.each do |ticket| %>
+				<tr>
+					<td><%= registration.name %> - <%= ticket.activity.navn rescue "" %></td>
+					<td>
+						<% lineend = '' %>
+						<% ticket.activity.tasks.each do |task| %>
+							<%= lineend %><%= task.name %>
+							<% lineend = '<br/>' %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+</p>
+
+# TODO: Hvis der mangler assignments, vis liste over ledige tasks...
+# Vis checkmark-felter med 
+#		ugedage, 
+#		morgen/middag/aften, 
+#		skåne/teen
+	
+
 <%= link_to 'Edit', edit_member_path(@member) %> |
 <%= link_to 'Back', members_path %>
+

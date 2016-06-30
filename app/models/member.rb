@@ -7,7 +7,7 @@ class Member < ActiveRecord::Base
 	
 	self.per_page = 30
 
-	has_many :assignments
+	# has_many :registrations
 	has_many :registrations
 	
 	scope :search_query, lambda { |query|
@@ -22,12 +22,13 @@ class Member < ActiveRecord::Base
 		# configure number of OR conditions for provision
     # of interpolation arguments. Adjust this if you
     # change the number of OR conditions.
-    num_or_conditions = 2
+    num_or_conditions = 3
 		where(
      terms.map {
         or_clauses = [
           "members.number LIKE ?",
-          "LOWER(members.email) LIKE ?"
+          "LOWER(members.email) LIKE ?",
+					"LOWER(members.name) LIKE ?"
         ].join(' OR ')
         "(#{ or_clauses })"
       }.join(' AND '),

@@ -1,14 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Activities</h1>
+<h1>Aktiviteter</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Navn</th>
-      <th>Sted</th>
-      <th>Dag</th>
-      <th>Tid</th>
+      <th align="left"><%= sort_link "navn" %></th>
+      <th align="left"><%= sort_link "sted" %></th>
+      <th align="left"><%= sort_link "tid" %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,11 +17,9 @@
       <tr>
         <td><%= activity.navn %></td>
         <td><%= activity.sted %></td>
-        <td><%= activity.dag %></td>
         <td><%= activity.tid %></td>
-        <td><%= link_to 'Show', activity %></td>
-        <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
-        <td><%= link_to 'Destroy', activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Vis', activity %></td>
+        <td><%= link_to 'Redigér', edit_activity_path(activity) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +27,5 @@
 
 <br>
 
-<%= link_to 'New Activity', new_activity_path %>
+<%= render 'upload' %>
+<%= link_to 'Ny aktivitet', new_activity_path %>

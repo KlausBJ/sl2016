@@ -20,12 +20,8 @@
     <%= f.text_field :sted %>
   </div>
   <div class="field">
-    <%= f.label :dag %><br>
-    <%= f.number_field :dag %>
-  </div>
-  <div class="field">
     <%= f.label :tid %><br>
-    <%= f.time_select :tid %>
+    <%= f.datetime_select :tid %>
   </div>
   <div class="actions">
     <%= f.submit %>

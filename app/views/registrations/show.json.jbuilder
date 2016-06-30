@@ -1,1 +1,1 @@
-json.extract! @registration, :id, :voksen, :ung, :boern, :baby, :member_id, :created_at, :updated_at
+json.extract! @registration, :id, :name, :member_id, :ticket_type_id, :created_at, :updated_at
