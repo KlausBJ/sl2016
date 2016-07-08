@@ -1,6 +1,6 @@
-require 'builder'
-require 'will_paginate'
-include ActionView::Helpers::NumberHelper
+#require 'builder'
+#require 'will_paginate'
+#include ActionView::Helpers::NumberHelper
 
 
 class MembersController < ApplicationController
@@ -24,6 +24,23 @@ class MembersController < ApplicationController
 		end
   end
 
+	def available_tasks(registration) # puttes ned i show? multidim-array?
+		@tasks = Array.new
+		if registration.ticket_type = 3
+			temptasks = Task.teen
+		else
+			temptasks = Task.voksen
+		end
+		temptasks.each do |temptask|
+			if temptask.assignments.nil?
+				@tasks << temptask
+			elsif temptask.assignments.count < temptask.number
+				@tasks << temptask
+			end
+		end
+		return @tasks
+	end
+	
 	def list
 	end
 	
@@ -48,6 +65,7 @@ class MembersController < ApplicationController
 	# GET /members/1
   # GET /members/1.json
   def show
+		@assignment = Assignment.new
   end
 
   # GET /members/new

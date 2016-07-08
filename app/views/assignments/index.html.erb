@@ -5,7 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Member</th>
+      <th>Registration</th>
       <th>Task</th>
       <th colspan="3"></th>
     </tr>
@@ -14,7 +14,7 @@
   <tbody>
     <% @assignments.each do |assignment| %>
       <tr>
-        <td><%= assignment.member %></td>
+        <td><%= assignment.registration %></td>
         <td><%= assignment.task %></td>
         <td><%= link_to 'Show', assignment %></td>
         <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>

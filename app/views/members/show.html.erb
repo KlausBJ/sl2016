@@ -18,47 +18,40 @@
 <p>
 	<table>
 		<tr>
-			<th align="left" width="200">Navn</th>
-			<th align="left">Billettype</th>
+			<th align="left">Navn&nbsp;</th>
+			<th align="left">Billettype&nbsp;</th>
+			<th align="left">Arbejdsopgave&nbsp;</th>
 		</tr>
 		<% @member.registrations.each do |registration| %>
+			<% output = false %>
 			<tr>
-					<td><%= registration.name %></td>
-					<td><%= registration.ticket_type.name %></td>
+					<td valign="top"><%= registration.name %>&nbsp;</td>
+					<td valign="top"><%= registration.ticket_type.name %>&nbsp;</td>
+					<td>
+						<% if registration.has_assignment? %>
+							<% registration.assignments.each do |assignment| %>
+									<%= assignment.task.activity.navn %>: <%= assignment.task.name %> - <%= assignment.task.date %><br/><% output = true %>
+							<% end %>
+							<% registration.activities.each do |activity| %>
+								Tovholder for <%= link_to activity.navn, activity_path(activity) %><br/><% output = true %>
+							<% end %>
+							<% if output == false %>
+								Arbejdsopgave ikke nødvendig.<br/>
+							<% end %><br/>
+						<% else %>
+							Der skal vælges en arbejdsopgave:<br/>
+							<strong>Forslag:</strong>
+							<% registration.priority_tasks.each do |task| %>
+								<% if not(task.name.nil?) %>
+									<%= form_for(@assignment) do |f| %><%= f.submit "Vælg opgave" -%><%= task.activity.navn %>: <%= truncate(task.name, :length => 50, :separator => ' ') -%><%= f.hidden_field :registration_id, :value => registration.id -%><%= f.hidden_field :task_id, :value => task.id -%><% end -%>
+								<% end %>
+							<% end %>
+						<% end %><br/>
+					</td>
 			</tr>
 		<% end %>
 	</table>
 </p>
-
-<p>
-	<table>
-		<tr>
-			<th align="left" width="200">Aktivitet</th>
-			<th align="left">Opgave</th>
-		</tr>
-		<% @member.registrations.each do |registration| %>
-			<% registration.tickets.each do |ticket| %>
-				<tr>
-					<td><%= registration.name %> - <%= ticket.activity.navn rescue "" %></td>
-					<td>
-						<% lineend = '' %>
-						<% ticket.activity.tasks.each do |task| %>
-							<%= lineend %><%= task.name %>
-							<% lineend = '<br/>' %>
-						<% end %>
-					</td>
-				</tr>
-			<% end %>
-		<% end %>
-	</table>
-</p>
-
-# TODO: Hvis der mangler assignments, vis liste over ledige tasks...
-# Vis checkmark-felter med 
-#		ugedage, 
-#		morgen/middag/aften, 
-#		skåne/teen
-	
 
 <%= link_to 'Edit', edit_member_path(@member) %> |
 <%= link_to 'Back', members_path %>

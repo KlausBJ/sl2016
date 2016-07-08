@@ -16,18 +16,23 @@
 </p>
 
 <p>
-  <strong>Deltagerliste</strong>
+  <strong>Tovholder:</strong>
+  <%= @activity.registration.name if @activity.registration %>
+</p>
+
+<p>
+  <strong>Deltagerliste </strong>(<%= @activity.tickets.count %> deltagere)
 </p>
 
 <p>
 	<table>
 		<tr>
-			<th align="left" width="200">Navn</th>
+			<th align="left">Navn&nbsp;&nbsp;</th>
 			<th align="left">Medlemsnr</th>
 		</tr>
 		<% @activity.tickets.each do |ticket| %>
 			<tr>
-					<td><%= ticket.name %></td>
+					<td><%= ticket.name %>&nbsp;&nbsp;</td>
 					<td><%= ticket.registration.member.number %></td>
 			</tr>
 		<% end %>

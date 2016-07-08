@@ -1,0 +1,21 @@
+// Cool Class Diagram
+[Customer|-forname:string;surname:string|doShiz()]<>-orders*>[Order]
+[Order]++-0..*>[LineItem]
+[Order]-[note:Aggregate root{bg:wheat}]
+
+
+//SL2016
+[Member|medlemsnr:string;email:string]++-0..*>[Registration]
+[Registration|name:string]++-0..*>[Activity]
+[TicketType|name:string]++-0..*>[Registration]
+[Registration]++-0..1>[Assignment]
+[Task]++-0..1>[Assignment]
+[Activity|navn:string;sted:string;tid:datetime]++-0..*>[Task]
+[Activity]++-0..*>[Ticket]
+[Registration]++-0..*>[Ticket]
+
+
+
+//jukebox
+[Jukebox]++has_many->[Group]
+[Group]++has_many->[Movie]

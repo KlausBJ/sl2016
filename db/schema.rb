@@ -11,81 +11,90 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630114052) do
+ActiveRecord::Schema.define(version: 20160703094827) do
 
   create_table "activities", force: :cascade do |t|
-    t.string   "navn"
-    t.string   "sted"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "registration_id"
+    t.string   "navn",            limit: 255
+    t.string   "sted",            limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "registration_id", limit: 4
     t.datetime "tid"
   end
 
-  add_index "activities", ["registration_id"], name: "index_activities_on_registration_id"
+  add_index "activities", ["registration_id"], name: "index_activities_on_registration_id", using: :btree
 
   create_table "assignments", force: :cascade do |t|
-    t.integer  "task_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "registration_id"
+    t.integer  "task_id",         limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "registration_id", limit: 4
   end
 
-  add_index "assignments", ["registration_id"], name: "index_assignments_on_registration_id"
-  add_index "assignments", ["task_id"], name: "index_assignments_on_task_id"
+  add_index "assignments", ["registration_id"], name: "index_assignments_on_registration_id", using: :btree
+  add_index "assignments", ["task_id"], name: "index_assignments_on_task_id", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.string   "number"
-    t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "name"
+    t.integer  "number",     limit: 4
+    t.string   "email",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 255
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "member_id",      null: false
-    t.integer  "ticket_type_id", null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "aargang"
-    t.string   "email"
-    t.integer  "vmn"
-    t.string   "indkvartering"
-    t.string   "koen"
-    t.string   "mobil"
+    t.string   "name",           limit: 255
+    t.integer  "member_id",      limit: 4,   null: false
+    t.integer  "ticket_type_id", limit: 4,   null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "aargang",        limit: 4
+    t.string   "email",          limit: 255
+    t.integer  "vmn",            limit: 4
+    t.string   "indkvartering",  limit: 255
+    t.string   "koen",           limit: 255
+    t.string   "mobil",          limit: 255
   end
 
-  add_index "registrations", ["member_id"], name: "index_registrations_on_member_id"
-  add_index "registrations", ["ticket_type_id"], name: "index_registrations_on_ticket_type_id"
+  add_index "registrations", ["member_id"], name: "index_registrations_on_member_id", using: :btree
+  add_index "registrations", ["ticket_type_id"], name: "index_registrations_on_ticket_type_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "number"
+    t.string   "name",        limit: 255
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "number",      limit: 4
     t.datetime "date"
-    t.integer  "activity_id"
-    t.string   "category"
+    t.integer  "activity_id", limit: 4
+    t.string   "category",    limit: 255
+    t.integer  "taken",       limit: 4,   default: 0
   end
 
-  add_index "tasks", ["activity_id"], name: "index_tasks_on_activity_id"
+  add_index "tasks", ["activity_id"], name: "index_tasks_on_activity_id", using: :btree
 
   create_table "ticket_types", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.integer  "activity_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "registration_id"
-    t.string   "name"
+    t.integer  "activity_id",     limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "registration_id", limit: 4
+    t.string   "name",            limit: 255
   end
 
-  add_index "tickets", ["activity_id"], name: "index_tickets_on_activity_id"
-  add_index "tickets", ["registration_id"], name: "index_tickets_on_registration_id"
+  add_index "tickets", ["activity_id"], name: "index_tickets_on_activity_id", using: :btree
+  add_index "tickets", ["registration_id"], name: "index_tickets_on_registration_id", using: :btree
 
+  add_foreign_key "activities", "registrations"
+  add_foreign_key "assignments", "registrations"
+  add_foreign_key "assignments", "tasks"
+  add_foreign_key "registrations", "members"
+  add_foreign_key "registrations", "ticket_types"
+  add_foreign_key "tasks", "activities"
+  add_foreign_key "tickets", "activities"
+  add_foreign_key "tickets", "registrations"
 end

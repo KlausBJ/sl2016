@@ -1,11 +1,20 @@
 Rails.application.routes.draw do
+  resources :assignments
+  resources :assignments
   resources :registrations do
+		collection do
+			post :import
+			get :task_eligible
+			post :assign
+		end
+	end
+	
+  resources :ticket_types do
 		collection do
 			post :import
 		end
 	end
 	
-  resources :ticket_types
   resources :tickets
 	resources :activities do
 		collection do
@@ -20,7 +29,8 @@ Rails.application.routes.draw do
   resources :tasks do
 		collection do
 			post :import
-		end
+			get :available
+			end
 	end
 		
   resources :members do

@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  before_action :set_registration, only: [:show, :edit, :update, :destroy]
+  before_action :set_registration, only: [:show, :edit, :update, :destroy, :assign]
 
   # GET /registrations
   # GET /registrations.json
@@ -7,11 +7,47 @@ class RegistrationsController < ApplicationController
     @registrations = Registration.all
   end
 	
+	def assign
+		@task = task.find(params[:task])
+		Assignment.create(registration: @registration, task: @task)
+		@task.taken += 1
+		@task.save
+		
+		redirect_to member_path(@registration.member)
+		end
+	
+  def task_eligible
+		@registrations = Array.new
+		tempregs = Registration.all
+		tempregs.each do |tempreg|
+			if tempreg.ticket_type.id == 1
+				@registrations << tempreg
+			elsif tempreg.ticket_type_id != 5 
+				if tempreg.aargang < 2002
+					@registrations << tempreg
+				end
+			end
+		end
+	end
+	
 	def import
 		myfile = params[:file]
 		contents = myfile.read.force_encoding('UTF-8')
 		
-		import = ImportRegistrationCSV.new(content: contents)
+		import = ImportRegistrationCSV.new(content: contents) do
+			after_build do |registration|
+				if registration.aargang != "" and not(registration.aargang.nil?)
+					p "debug: #{registration.aargang} before"
+					if registration.aargang < 17
+						registration.aargang += 2000
+					elsif registration.aargang < 100
+						registration.aargang += 1900
+					end
+					p "debug: #{registration.aargang} after"
+				end
+			end
+		end
+		
 		import.run!
 		
 		redirect_to registrations_url, notice: 'Tilmeldinger importeret/opdateret.'

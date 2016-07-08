@@ -1,11 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Tasks</h1>
+<h1>Arbejdsopgaver</h1>
 
 <table>
   <thead>
     <tr>
       <th>Opgave</th>
+      <th>ID</th>
       <th>Antal</th>
       <th>Tid</th>
       <th>Aktivitet</th>
@@ -17,11 +18,12 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
-        <td><%= task.name %></td>
-        <td><%= task.number %></td>
-        <td><%= task.date %></td>
-				<td><%= task.activity.nil? ? "" : task.activity.navn %></td>
-        <td><%= task.category %></td>
+        <td><%= task.name %>&nbsp;</td>
+        <td><%= task.id %>&nbsp;</td>
+        <td><%= task.number %>&nbsp;</td>
+        <td><%= task.date %>&nbsp;</td>
+				<td><%= task.activity.nil? ? "" : task.activity.navn %>&nbsp;</td>
+        <td><%= task.category %>&nbsp;</td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -1,0 +1,8 @@
+require 'csv'
+
+csv_text = File.read('C;\Sites\sl2016\registrations.csv')
+csv = CSV.parse(csv_text, :headers => true, :converters => :integer)
+
+csv.each do |reg|
+	Registration.create({:member => Member.find_by(:number => reg["Medlemsnr"]), :ticket_type => TicketType.find(reg["Billettype"]), :name => reg["Navn"]})
+end

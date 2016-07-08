@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :assign]
 
   # GET /tasks
   # GET /tasks.json
@@ -7,7 +7,19 @@ class TasksController < ApplicationController
     @tasks = Task.all
   end
 
-  def import
+  def available
+		@tasks = Array.new
+		temptasks = Task.all
+		temptasks.each do |temptask|
+			if temptask.assignments.nil?
+				@tasks << temptask
+			elsif temptask.assignments.count < temptask.number
+				@tasks << temptask
+			end
+		end
+	end
+	
+	def import
 		myfile = params[:file]
 		contents = myfile.read.force_encoding('UTF-8')
 		
@@ -37,6 +49,9 @@ class TasksController < ApplicationController
   # POST /tasks.json
   def create
     @task = Task.new(task_params)
+		
+		# Assume none are taken at creation...
+		@task.taken = 0
 
     respond_to do |format|
       if @task.save
@@ -81,6 +96,6 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:name, :detail, :date, :number)
+      params.require(:task).permit(:name, :detail, :date, :number, :registration)
     end
 end

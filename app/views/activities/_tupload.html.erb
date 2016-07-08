@@ -1,0 +1,4 @@
+<%= form_for(@activity, multipart: true, url: {action: "ticket_import"}, method: :post) do |f| %>
+  <%= f.file_field :file %>
+  <%= f.submit "Import" %>
+<% end %>

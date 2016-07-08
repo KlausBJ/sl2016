@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy, :ticket_import]
-	#require 'CSVImporter'
+
 	helper_method :sort_column, :sort_direction
 
   def import
@@ -9,7 +9,7 @@ class ActivitiesController < ApplicationController
 		
 		import = ImportActivityCSV.new(content: contents)
 		import.run!
-		
+
 		redirect_to activities_url, notice: 'Aktiviteter importeret/opdateret.'
 	end
 	
@@ -21,6 +21,7 @@ class ActivitiesController < ApplicationController
 		
 		import = ImportTicketCSV.new(content: contents) do
 			after_build do |ticket|
+				skip! if ticket.activity.nil?
 				tmpregistration = Registration.find_by_member_id_and_name(ticket.registration.member_id, ticket.name)
 				if tmpregistration.nil? 
 					# ikke fundet på den nemme måde
@@ -38,8 +39,6 @@ class ActivitiesController < ApplicationController
 					end
 				else
 					# fundet på den nemme måde
-					p "debug: fundet på den nemme måde..."
-					p "debug: name #{ticket.name} medlemsnr #{ticket.registration.member_id}"
 					ticket.registration = tmpregistration
 				end
 				ticket.activity = $activity
@@ -50,7 +49,7 @@ class ActivitiesController < ApplicationController
 		
 		$activity = nil
 		
-		redirect_to activity_url, notice: import.report.message
+		redirect_to activities_url, notice: import.report.message
 		#'Billetter importeret/opdateret.'
 	end
 
@@ -134,6 +133,6 @@ class ActivitiesController < ApplicationController
     end
 		
 		def sortable_columns
-			["navn", "sted", "tid"]
+			["navn", "sted", "tid", "registration_id"]
 		end
 end

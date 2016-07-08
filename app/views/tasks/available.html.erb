@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ledige opgaver</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Opgave</th>
+      <th>Antal</th>
+      <th>Tid</th>
+      <th>Aktivitet</th>
+      <th>Kategori</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.number %></td>
+        <td><%= task.date %></td>
+				<td><%= task.activity.nil? ? "" : task.activity.navn %></td>
+        <td><%= task.category %></td>
+        <td><%= link_to 'Show', task %></td>
+        <td><%= link_to 'Edit', edit_task_path(task) %></td>
+        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= render 'upload' %>
+<%= link_to 'New Task', new_task_path %>

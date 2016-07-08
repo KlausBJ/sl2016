@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tilmeldte/arbejdsopgave</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Navn&nbsp;</th>
+      <th>Billettype&nbsp;</th>
+      <th>Medlemsnr&nbsp;</th>
+			<th>Årgang&nbsp;</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @registrations.each do |registration| %>
+      <tr>
+        <td><%= registration.name %>&nbsp;</td>
+        <td><%= registration.ticket_type.name %>&nbsp;</td>
+        <td><%= registration.member.number %>&nbsp;</td>
+				<td><%= registration.aargang.nil? ? "" : registration.aargang %>&nbsp;</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
