@@ -18,15 +18,14 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
-        <td><%= task.name %>&nbsp;</td>
+        <td><%= link_to task.name, task %>&nbsp;</td>
         <td><%= task.id %>&nbsp;</td>
         <td><%= task.number %>&nbsp;</td>
         <td><%= task.date %>&nbsp;</td>
 				<td><%= task.activity.nil? ? "" : task.activity.navn %>&nbsp;</td>
         <td><%= task.category %>&nbsp;</td>
-        <td><%= link_to 'Show', task %></td>
-        <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Redigér', edit_task_path(task) %></td>
+        <td><%= link_to 'Slet', task, method: :delete, data: { confirm: 'Are you sure?' } if @username == 'admin' %></td>
       </tr>
     <% end %>
   </tbody>
@@ -35,4 +34,4 @@
 <br>
 
 <%= render 'upload' %>
-<%= link_to 'New Task', new_task_path %>
+<%= link_to 'New Task', new_task_path %>edit_task_path(task)

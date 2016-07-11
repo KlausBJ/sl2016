@@ -13,6 +13,8 @@
       <th>Mobil</th>
       <th>&Aring;rgang</th>
       <th>Indkvartering</th>
+      <th>Postnr.</th>
+      <th>By</th>
 			<th>Billetter</th>
       <th colspan="3"></th>
     </tr>
@@ -29,6 +31,8 @@
         <td><%= registration.mobil %></td>
         <td><%= registration.aargang %></td>
         <td><%= registration.indkvartering %></td>
+        <td><%= registration.postnr %></td>
+        <td><%= registration.by %></td>
 				<td><%= registration.tickets.count if registration.tickets %>
         <td><%= link_to 'Show', registration %></td>
         <td><%= link_to 'Edit', edit_registration_path(registration) %></td>

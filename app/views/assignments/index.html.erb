@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Assignments</h1>
+<h1>Tildelte opgaver</h1>
 
 <table>
   <thead>
@@ -14,8 +14,8 @@
   <tbody>
     <% @assignments.each do |assignment| %>
       <tr>
-        <td><%= assignment.registration %></td>
-        <td><%= assignment.task %></td>
+        <td><%= assignment.registration.name %></td>
+        <td><%= assignment.task.name %></td>
         <td><%= link_to 'Show', assignment %></td>
         <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
         <td><%= link_to 'Destroy', assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>

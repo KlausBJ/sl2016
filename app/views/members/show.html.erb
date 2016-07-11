@@ -15,43 +15,114 @@
   <%= @member.email %>
 </p>
 
-<p>
-	<table>
-		<tr>
-			<th align="left">Navn&nbsp;</th>
-			<th align="left">Billettype&nbsp;</th>
-			<th align="left">Arbejdsopgave&nbsp;</th>
-		</tr>
+
+<table>
+	<tr width="100%">
 		<% @member.registrations.each do |registration| %>
-			<% output = false %>
-			<tr>
-					<td valign="top"><%= registration.name %>&nbsp;</td>
-					<td valign="top"><%= registration.ticket_type.name %>&nbsp;</td>
-					<td>
-						<% if registration.has_assignment? %>
-							<% registration.assignments.each do |assignment| %>
-									<%= assignment.task.activity.navn %>: <%= assignment.task.name %> - <%= assignment.task.date %><br/><% output = true %>
-							<% end %>
-							<% registration.activities.each do |activity| %>
-								Tovholder for <%= link_to activity.navn, activity_path(activity) %><br/><% output = true %>
-							<% end %>
-							<% if output == false %>
-								Arbejdsopgave ikke nødvendig.<br/>
-							<% end %><br/>
-						<% else %>
-							Der skal vælges en arbejdsopgave:<br/>
-							<strong>Forslag:</strong>
-							<% registration.priority_tasks.each do |task| %>
-								<% if not(task.name.nil?) %>
-									<%= form_for(@assignment) do |f| %><%= f.submit "Vælg opgave" -%><%= task.activity.navn %>: <%= truncate(task.name, :length => 50, :separator => ' ') -%><%= f.hidden_field :registration_id, :value => registration.id -%><%= f.hidden_field :task_id, :value => task.id -%><% end -%>
-								<% end %>
-							<% end %>
-						<% end %><br/>
-					</td>
-			</tr>
+			<% if !(registration.has_assignment?) %>
+				<td valign="top" width="20%">
+					<table valign="top">
+						<tr>
+							<td><strong>Filtre:</td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "1") %><strong><% end %><%= link_to "Lørdag",member_path(params.merge(:day => 1)) %><% if (params[:day] == "1") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "2") %><strong><% end %><%= link_to "Søndag",member_path(params.merge(:day => 2)) %><% if (params[:day] == "2") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "3") %><strong><% end %><%= link_to "Mandag",member_path(params.merge(:day => 3)) %><% if (params[:day] == "3") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "4") %><strong><% end %><%= link_to "Tirsdag",member_path(params.merge(:day => 4)) %><% if (params[:day] == "4") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "5") %><strong><% end %><%= link_to "Onsdag",member_path(params.merge(:day => 5)) %><% if (params[:day] == "5") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "6") %><strong><% end %><%= link_to "Torsdag",member_path(params.merge(:day => 6)) %><% if (params[:day] == "6") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "7") %><strong><% end %><%= link_to "Fredag",member_path(params.merge(:day => 7)) %><% if (params[:day] == "7") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "8") %><strong><% end %><%= link_to "Lørdag",member_path(params.merge(:day => 8)) %><% if (params[:day] == "8") %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if !(params[:day]) %><strong><% end %><%= link_to "Aktiviteter",member_path(@member) %><% if !(params[:day]) %></strong><% end %></td>
+						</tr>
+						<tr>
+							<td><% if (params[:day] == "9") %><strong><% end %><%= link_to "Alle",member_path(params.merge(:day => 9)) %><% if (params[:day] == "9") %></strong><% end %></td>
+						</tr>
+					</table>
+				</td>
+				<% break %># This only needs to run once
+			<% end %>
 		<% end %>
-	</table>
-</p>
+		<td width="*">
+			<table><% bgc = !!(bgc == 'AFAFAF') ? 'CFCFCF' : 'AFAFAF' %>
+				<tr bgcolor="#<%= bgc %>">
+					<th align="left">Navn&nbsp;</th>
+					<th align="left">Billettype&nbsp;</th>
+					<th align="left">Arbejdsopgave&nbsp;</th>
+				</tr>
+				<% @member.registrations.each do |registration| %>
+					<% output = false %>
+					<% bgc = !!(bgc == 'AFAFAF') ? 'CFCFCF' : 'AFAFAF' %>
+					<tr bgcolor="#<%= bgc %>">
+						<td valign="top"><%= registration.name %>&nbsp;</td>
+						<td valign="top"><%= registration.ticket_type.name %>&nbsp;</td>
+						<td>
+							<% if params[:day] and (params[:day] == "9") and !(registration.has_assignment?) %><div class="scrollit"><% end %>
+								<table>
+									<% if registration.has_assignment? %>
+										<% registration.assignments.each do |assignment| %>
+											<tr width ="100%"><td><%= assignment.task.activity.navn %>: <%= assignment.task.name %> - <%= assignment.task.date %></td></tr><% output = true %>
+										<% end %>
+										<% registration.activities.each do |activity| %>
+											<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td>Tovholder for <%= link_to activity.navn, activity_path(activity) %></td></tr><% output = true %>
+										<% end %>
+										<% if output == false %>
+											<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td>Arbejdsopgave ikke nødvendig.</td></tr>
+										<% else %>
+											<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td>&nbsp;</td></tr>
+										<% end %>
+									<% else %>
+										<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td>Der skal vælges en arbejdsopgave:</td></tr>
+										<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td><strong>Forslag:</strong></td></tr>
+										<% if params[:day] and ((params[:day]).to_i < 9) %>
+											<% task_day = ((params[:day]).to_i + 22).to_s %><% task_date = "2016-07-#{task_day}" %>
+											<% Task.date(task_date).available.order('number - taken desc')[0..7].each do |task| %>
+												<% if not(task.name.nil?) %>
+													<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td><%= form_for(@assignment) do |f| %><%= f.submit "Vælg opgave" -%><%= task.date.strftime('%d %b %Y %H:%M') %>&nbsp;&nbsp;<%= task.activity.nil? ? "" : task.activity.navn + ": " %><%= truncate(task.name, :length => 50, :separator => ' ') -%><%= f.hidden_field :registration_id, :value => registration.id -%><%= f.hidden_field :task_id, :value => task.id -%><% end -%></td></tr>
+												<% end %>
+											<% end %>
+										<% else %>
+											<% if params[:day] and (params[:day] == "9") %>
+												<% Task.available.order('number - taken desc').each do |task| %>
+													<% if not(task.name.nil?) %>
+														<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td><%= form_for(@assignment) do |f| %><%= f.submit "Vælg opgave" -%><%= task.date.strftime('%d %b %Y %H:%M') %>&nbsp;&nbsp;<%= task.activity.nil? ? "" : task.activity.navn + ": " %><%= truncate(task.name, :length => 50, :separator => ' ') -%><%= f.hidden_field :registration_id, :value => registration.id -%><%= f.hidden_field :task_id, :value => task.id -%><% end -%></td></tr>
+													<% end %>
+												<% end %>
+											<% else %>
+												<% registration.priority_tasks.each do |task| %>
+													<% if not(task.name.nil?) %>
+														<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>"><td><%= form_for(@assignment) do |f| %><%= f.submit "Vælg opgave" -%><%= task.date.strftime('%d %b %Y %H:%M') %>&nbsp;&nbsp;<%= task.activity.nil? ? "" : task.activity.navn + ": " %><%= truncate(task.name, :length => 50, :separator => ' ') -%><%= f.hidden_field :registration_id, :value => registration.id -%><%= f.hidden_field :task_id, :value => task.id -%><% end -%></td></tr>
+													<% end %>
+												<% end %>
+											<% end %>
+										<% end %>
+									<% end %>
+								</table>
+							<% if params[:day] and params[:day] == "9" and !(registration.has_assignment?) %></div><% end %>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+		</td>
+	</tr>
+</table>
 
 <%= link_to 'Edit', edit_member_path(@member) %> |
 <%= link_to 'Back', members_path %>

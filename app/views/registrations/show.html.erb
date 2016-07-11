@@ -6,13 +6,13 @@
 </p>
 
 <p>
-  <strong>Member:</strong>
-  <%= @registration.member %>
+  <strong>Medlemsnr:</strong>
+  <%= @registration.member.number %>
 </p>
 
 <p>
-  <strong>Ticket type:</strong>
-  <%= @registration.ticket_type %>
+  <strong>Billettype:</strong>
+  <%= @registration.ticket_type.name %>
 </p>
 
 <%= link_to 'Edit', edit_registration_path(@registration) %> |

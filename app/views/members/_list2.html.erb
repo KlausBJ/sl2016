@@ -1,22 +1,7 @@
-<%# app/views/members/_list.html.erb %>
-<div id="filterrific_results">
-
-  <div>
-    #<%= page_entries_info members %>
-  </div>
-
-  <table>
-    <tr>
-      <th>Medlemsnr</th>
-      <th>Email</th>
-    </tr>
-    <% members.each do |member| %>
-      <tr>
-        <td><%= link_to(member.number, member_path(member)) %></td>
-        <td><%= link_to(member.email, member_path(member)) %></td>
-      </tr>
-    <% end %>
-  </table>
+<div>
+	<Strong>Medlemsnr - Navn - email - tilmeldte</Strong><br/>
+	<% members.each do |member| %>
+		<%= link_to("#{member.number} - #{member.name} - #{member.email} - #{member.registrations.count}", member_path(member), :target => "_blank") %><br/>
+	<% end %>
 </div>
 
-#<%= will_paginate members %>

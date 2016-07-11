@@ -12,7 +12,7 @@ class Registration < ActiveRecord::Base
 	end
 	
 	def has_assignment?
-		return (assignments.any? or activities.any? or ticket_type.name == "Barn 0-3" or (ticket_type.name == "Barn 4-17" and aargang > 2001) or ticket_type.name == "Autooprettet - Ikke betalt")
+		return (assignments.any? or activities.any? or ticket_type.name == "Barn 0-3" or (ticket_type.name == "Barn 4-17" and aargang > 2001))
 	end
 	
 	def priority_tasks

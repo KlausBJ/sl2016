@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160703094827) do
+ActiveRecord::Schema.define(version: 20160711112440) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "navn",            limit: 255
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20160703094827) do
     t.string   "indkvartering",  limit: 255
     t.string   "koen",           limit: 255
     t.string   "mobil",          limit: 255
+    t.string   "postnr",         limit: 255
+    t.string   "by",             limit: 255
   end
 
   add_index "registrations", ["member_id"], name: "index_registrations_on_member_id", using: :btree

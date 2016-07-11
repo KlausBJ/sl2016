@@ -39,6 +39,10 @@ Rails.application.routes.draw do
 		end
 	end
 
+
+	get '/search/:search_query', :controller => 'members', :action => 'search', :as => 'search_query'
+	get '/search', :controller => 'members', :action => 'search', :as => 'search'
+
 # You can have the root of your site routed with "root"
   root 'members#index'
 

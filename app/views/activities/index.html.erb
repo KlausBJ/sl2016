@@ -2,32 +2,44 @@
 
 <h1>Aktiviteter</h1>
 
-<table><% alltickets = 0 %>
+<table>
   <thead>
     <tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>">
       <th align="left"><%= sort_link "navn" %>&nbsp;&nbsp;&nbsp;</th>
       <th align="left"><%= sort_link "sted" %>&nbsp;&nbsp;&nbsp;</th>
       <th align="left" width="150"><%= sort_link "tid" %></th>
       <th align="left"><%= sort_link "registration_id", "Tovholder" %>&nbsp;&nbsp;&nbsp;</th>
-      <th align="left">Deltagere&nbsp;&nbsp;&nbsp;</th>
+      <th align="right">Deltagere&nbsp;&nbsp;&nbsp;</th>
     </tr>
 		</thead>
 
   <tbody>
-    <% @activities.each do |activity| %>
-      <tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>">
-        <td><%= link_to activity.navn, edit_activity_path(activity) %>&nbsp;&nbsp;&nbsp;</td>
-        <td><%= activity.sted %>&nbsp;&nbsp;&nbsp;</td>
-        <td><%= activity.tid.strftime('%d %b %Y %H:%M') %></td>
-				<td><%= activity.registration.name if activity.registration %>&nbsp;&nbsp;&nbsp;</td>
-				<td><%= activity.tickets.count if activity.tickets and activity.tickets.count != 0 %>&nbsp;&nbsp;&nbsp;</td>
-				<% alltickets += activity.tickets.count if activity.tickets %>
-      </tr>
-    <% end %>
+		<% if !(params[:sted]) %>
+			<% @activities.each do |activity| %>
+				<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>">
+					<td><%= link_to activity.navn, activity %>&nbsp;&nbsp;&nbsp;</td>
+					<td><%= link_to activity.sted, activities_path(sted: activity.sted) %>&nbsp;&nbsp;&nbsp;</td>
+					<td><%= activity.tid.strftime('%d %b %Y %H:%M') %></td>
+					<td><%= link_to activity.registration.name, member_path(activity.registration.member) if activity.registration %>&nbsp;&nbsp;&nbsp;</td>
+					<td align="right"><%= activity.tickets.count if activity.tickets and activity.tickets.count != 0 %>&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+			<% end %>
+		<% else %>
+			<% @activities.sted(params[:sted]).each do |activity| %>
+				<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>">
+					<td><%= link_to activity.navn, activity %>&nbsp;&nbsp;&nbsp;</td>
+					<td><%= link_to activity.sted, activities_path(sted: activity.sted) %>&nbsp;&nbsp;&nbsp;</td>
+					<td><%= activity.tid.strftime('%d %b %Y %H:%M') %></td>
+					<td><%= link_to activity.registration.name, member_path(activity.registration.member) if activity.registration %>&nbsp;&nbsp;&nbsp;</td>
+					<td align="right"><%= activity.tickets.count if activity.tickets and activity.tickets.count != 0 %>&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+			<% end %>
+		<% end %>
   </tbody>
 </table>
 
+<% if @username %>
 <br>
-Billetter i alt: <%= alltickets %>
 <%= render 'upload' %>
 <%= link_to 'Ny aktivitet', new_activity_path %>
+<% end %>

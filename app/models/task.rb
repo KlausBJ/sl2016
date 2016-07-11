@@ -17,7 +17,7 @@ class Task < ActiveRecord::Base
 	
 	scope :mandag, -> { date('2016-07-25') }
 	
-	scope :ltirsdag, -> { date('2016-07-26') }
+	scope :tirsdag, -> { date('2016-07-26') }
 	
 	scope :onsdag, -> { date('2016-07-27') }
 	

@@ -2,9 +2,9 @@
 #require 'will_paginate'
 #include ActionView::Helpers::NumberHelper
 
-
 class MembersController < ApplicationController
-  before_action :set_member, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate, only: [:search, :show]
+	before_action :set_member, only: [:show, :edit, :update, :destroy]
 	
   # GET /members
   # GET /members.json
@@ -24,6 +24,14 @@ class MembersController < ApplicationController
 		end
   end
 
+	def search
+		if params[:search_query]
+			@members = Member.search_query(params[:search_query])
+		else
+			redirect_to search_path(:search_query => "Medlnr, navn eller email")
+		end
+	end
+	
 	def available_tasks(registration) # puttes ned i show? multidim-array?
 		@tasks = Array.new
 		if registration.ticket_type = 3
@@ -128,4 +136,11 @@ class MembersController < ApplicationController
     def member_params
       params.require(:member).permit(:number, :email, :search_query)
     end
+		
+		def authenticate
+			authenticate_or_request_with_http_basic('Administration') do |username, password|
+				username == 'admin' && password == 'skumhest'
+			end
+		end
+			
 end

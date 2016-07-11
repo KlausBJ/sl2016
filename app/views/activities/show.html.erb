@@ -26,14 +26,14 @@
 
 <p>
 	<table>
-		<tr>
+		<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>">
 			<th align="left">Navn&nbsp;&nbsp;</th>
-			<th align="left">Medlemsnr</th>
+			<th align="right">Medlemsnr</th>
 		</tr>
 		<% @activity.tickets.each do |ticket| %>
-			<tr>
+			<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>">
 					<td><%= ticket.name %>&nbsp;&nbsp;</td>
-					<td><%= ticket.registration.member.number %></td>
+					<td align="right"><%= ticket.registration.member.number %></td>
 			</tr>
 		<% end %>
 	</table>

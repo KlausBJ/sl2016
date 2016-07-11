@@ -5,16 +5,15 @@ class RegistrationsController < ApplicationController
   # GET /registrations.json
   def index
     @registrations = Registration.all
-  end
-	
-	def assign
-		@task = task.find(params[:task])
-		Assignment.create(registration: @registration, task: @task)
-		@task.taken += 1
-		@task.save
-		
-		redirect_to member_path(@registration.member)
+		respond_to do |format|
+			format.html
+			format.csv do
+				headers['Content-Disposition'] = "attachment; filename=\"Deltagerliste.csv\""
+				headers['Content-Type'] ||= 'text/csv'
+			end
+			format.xls
 		end
+  end
 	
   def task_eligible
 		@registrations = Array.new
@@ -36,14 +35,13 @@ class RegistrationsController < ApplicationController
 		
 		import = ImportRegistrationCSV.new(content: contents) do
 			after_build do |registration|
+				skip! if registration.persisted?
 				if registration.aargang != "" and not(registration.aargang.nil?)
-					p "debug: #{registration.aargang} before"
 					if registration.aargang < 17
 						registration.aargang += 2000
 					elsif registration.aargang < 100
 						registration.aargang += 1900
 					end
-					p "debug: #{registration.aargang} after"
 				end
 			end
 		end

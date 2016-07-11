@@ -1,4 +1,5 @@
 class AssignmentsController < ApplicationController
+  skip_before_action :authenticate, only: :create
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
   # GET /assignments
