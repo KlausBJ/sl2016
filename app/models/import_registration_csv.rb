@@ -8,7 +8,7 @@ class ImportRegistrationCSV
 	column :name, as: ["navn"], to: ->(name) { name.titleize }
 	column :email, as: ["e-mailadresse"]
 	column :mobil, as: ["mobilnr"]
-	column :aargang, to: -> (aargang) { aargang.split("-")[1] }
+	column :aargang, to: -> (aargang) { aargang } #.split("-")[1]
 	column :vmn, as: [/v.rtsmedlemsnr/i]
 	column :indkvartering
 	column :koen, as: [/k.n/i], to: ->(koen) { koen.upcase }

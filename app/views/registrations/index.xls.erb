@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Medlemsnr</Data></Cell>
+        <Cell><Data ss:Type="String">Plads</Data></Cell>
+        <Cell><Data ss:Type="String">Navn</Data></Cell>
+        <Cell><Data ss:Type="String">Mobil</Data></Cell>
+        <Cell><Data ss:Type="String">Årgang</Data></Cell>
+        <Cell><Data ss:Type="String">Postnr</Data></Cell>
+        <Cell><Data ss:Type="String">By</Data></Cell>
+      </Row>
+			<% @registrations.each do |registration| %>
+				<% if registration.postnr %>
+					<Row>
+						<Cell><Data ss:Type="Number"><%= registration.member.number -%></Data></Cell>
+						<Cell><Data ss:Type="String"><%= registration.indkvartering -%></Data></Cell>
+						<Cell><Data ss:Type="String"><%= registration.name -%></Data></Cell>
+						<Cell><Data ss:Type="String"><%= registration.mobil -%></Data></Cell>
+							<% if registration.aargang.nil? %>
+								<Cell><Data ss:Type="String"></Data></Cell>
+							<% else %>
+								<Cell><Data ss:Type="Number"><%= registration.aargang -%></Data></Cell>
+							<% end %>
+						<Cell><Data ss:Type="String"><%= registration.postnr -%></Data></Cell>
+						<Cell><Data ss:Type="String"><%= registration.by -%></Data></Cell>
+					</Row>
+				<% end %>
+			<% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

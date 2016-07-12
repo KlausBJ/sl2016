@@ -1,0 +1,8 @@
+<%- bom = "\377\376" -%>
+<%- headers = ['Medlemsnr','Plads','Navn','Mobil','email','Årgang','Postnr','By'] -%>
+<%= bom -%><%= CSV.generate_line headers,{:col_sep => ";", :encoding => 'iso-8859-1'} -%>
+<%- @registrations.each do |registration| -%>
+<%- if registration.postnr -%>
+<%= CSV.generate_line([registration.member.number,registration.indkvartering,registration.name,registration.mobil,registration.email,registration.aargang,registration.postnr,registration.by],{:col_sep => ";"}) -%>
+<%- end -%>
+<%- end -%>

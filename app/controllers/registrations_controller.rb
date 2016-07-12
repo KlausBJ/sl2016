@@ -35,13 +35,19 @@ class RegistrationsController < ApplicationController
 		
 		import = ImportRegistrationCSV.new(content: contents) do
 			after_build do |registration|
-				skip! if registration.persisted?
-				if registration.aargang != "" and not(registration.aargang.nil?)
-					if registration.aargang < 17
-						registration.aargang += 2000
-					elsif registration.aargang < 100
-						registration.aargang += 1900
+				aargang = ""
+				dato = ""
+				#skip! if registration.persisted?
+				if !(registration.aargang == "")
+					p "debug: aargang => #{registration.aargang}"
+					aargang = registration.aargang.split("-")[1].to_i
+					dato = registration.aargang.split("-")[0]
+					if aargang < 17
+						aargang += 2000
+					elsif aargang < 100
+						aargang += 1900
 					end
+					registration.aargang = "#{dato}-#{aargang.to_s}"
 				end
 			end
 		end

@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Medlemssøgning</h1>
+
+
+<%= form_tag(search_path, :action => 'search', :method => "get", id: "search") do %>
+<%= text_field_tag :search_query, params[:search_query], placeholder: "Søg medlemmer", :onclick => 'this.select();' %>
+<%= submit_tag "Søg" %>
+<% end %>
+
+<% if @members.present? %>
+	<table width="100%">
+		<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>" width="100%">
+			<th>Medlemsnr.&nbsp;</th>
+			<th>Navn&nbsp;</th>
+			<th>email&nbsp;</th>
+		</tr>
+		<% @members.each do |member| %>
+			<tr bgcolor="#<%= cycle('AFFFFF','FFFFFF') %>">
+				<td><%= link_to member.name, member_path(member) %>&nbsp;</td>
+				<td><%= link_to member.number, member_path(member) %>&nbsp;</td>
+				<td><%= link_to member.email, member_path(member) %>&nbsp;</td>
+			</tr>
+		<% end %>
+	</table>
+<% else %>
+  <p>Der er ikke fundet medlemmer/tilmeldinger, som matcher <%= params[:search] %>.</p>
+<% end %>

@@ -1,0 +1,14 @@
+<table>
+	<tr>
+		<th>Medlemsnr.&nbsp;</th>
+		<th>Navn&nbsp;</th>
+		<th>email&nbsp;</th>
+	</tr>
+	<% @members.each do |member| %>
+		<tr>
+			<td><%= member.name %>&nbsp;</td>
+			<td><%= member.number %>&nbsp;</td>
+			<td><%= meember.email %>&nbsp;</td>
+		</tr>
+	<% end %>
+</table>

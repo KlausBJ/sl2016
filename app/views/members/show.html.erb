@@ -61,15 +61,30 @@
 			<% end %>
 		<% end %>
 		<td width="*">
-			<table><% bgc = !!(bgc == 'AFAFAF') ? 'CFCFCF' : 'AFAFAF' %>
-				<tr bgcolor="#<%= bgc %>">
+			<table>
+				<tr>
 					<th align="left">Navn&nbsp;</th>
 					<th align="left">Billettype&nbsp;</th>
 					<th align="left">Arbejdsopgave&nbsp;</th>
 				</tr>
 				<% @member.registrations.each do |registration| %>
 					<% output = false %>
-					<% bgc = !!(bgc == 'AFAFAF') ? 'CFCFCF' : 'AFAFAF' %>
+					<% case registration.ticket_type.name %>
+						<% when 'Voksen 21-','Myndig 18-20' %>
+							<% bgc = 'FF00FF' %>
+						<% when 'Barn 4-17' %>
+							<% if registration.aargang.split("-")[1].to_i < 2000 or (registration.aargang.split("-")[1].to_i == 2000 and registration.aargang.split("-")[0].split("/")[1].to_i < 7) or (registration.aargang.split("-")[1].to_i == 2000 and registration.aargang.split("-")[0].split("/")[1].to_i == 7 and registration.aargang.split("-")[0].split("/")[0].to_i < 24) %>
+								<% bgc = 'FF00FF' %>
+							<% elsif (registration.aargang.split("-")[1].to_i == 2000 and registration.aargang.split("-")[0].split("/")[1].to_i == 7 and registration.aargang.split("-")[0].split("/")[0].to_i >= 24 and registration.aargang.split("-")[0].split("/")[0].to_i <= 30) %>
+								<% bgc = '00FF00' %>
+							<% else %>
+								<% bgc = 'FFFF00' %>
+							<% end %>
+						<% when 'Barn 0-3' %>
+							<% bgc = 'FFFF00' %>
+						<% when 'Autooprettet - Ikke betalt' %>
+							<% bgc = 'FF0000' %>
+						<% end %>
 					<tr bgcolor="#<%= bgc %>">
 						<td valign="top"><%= registration.name %>&nbsp;</td>
 						<td valign="top"><%= registration.ticket_type.name %>&nbsp;</td>
